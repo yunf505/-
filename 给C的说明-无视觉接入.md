@@ -35,6 +35,8 @@ python 抽取结果JSON/工具/validate.py out.json     # 或 skill/customs-doc-
 
 产出格式和 A/B 完全一致：同一份 Contract-A、同一个 `validate.py`、同一个 `eval/run.py`。只是“把像素变成字”这一步，从“看”换成了“本地 OCR”。
 
+> **更省事（推荐）**：不想自己拼第 2 步的提示词，就跑 `python scripts/no_vision_prep.py <文件.pdf> --pages 2 --doc-type customs_declaration --out prep.txt`——它把本地 OCR 结果连同字段清单、归一化规则、抽取纪律打包成**一整段**提示写进 `prep.txt`，你整段贴给 Codex，它直接回 Contract-A JSON，再 `validate.py` 过闸。
+
 ---
 
 ## 三、你会踩的坑（提前说，省得你以为是坏了）
