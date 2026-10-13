@@ -1,0 +1,104 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "bill_of_lading",
+  "source_file": "fixtures-synthetic/SZPLA2400404.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "bl_no": {
+      "value": "SZPLA2400404",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "B/L NO. SZPLA2400404"
+      },
+      "normalized": true
+    },
+    "shipper": {
+      "value": "PACIFIC GIFTS & STATIONERY (HK) LTD",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "SHIPPER: PACIFIC GIFTS & STATIONERY (HK) LTD"
+      },
+      "normalized": true
+    },
+    "consignee": {
+      "value": "TO ORDER",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "CONSIGNEE: TO ORDER"
+      },
+      "normalized": true
+    },
+    "notify_party": {
+      "value": "华宇文具（上海）进出口有限公司",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "NOTIFY PARTY: 华宇文具（上海）进出口有限公司"
+      },
+      "normalized": true
+    },
+    "vessel_voyage": {
+      "value": {
+        "vessel": "NORDIC VOYAGER",
+        "voyage": "0FM4W2"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "VESSEL / VOYAGE: NORDIC VOYAGER / 0FM4W2"
+      },
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "SHANGHAI",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "PORT OF LOADING: SHANGHAI"
+      },
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "LOS ANGELES",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "PORT OF DISCHARGE: LOS ANGELES"
+      },
+      "normalized": true
+    },
+    "packages_and_weight": {
+      "value": {
+        "packages": 200,
+        "gross_weight_kg": 7200.0,
+        "unit": "CTN"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "200 CTNS / 7200.0 KGS"
+      },
+      "normalized": true
+    },
+    "goods_description": {
+      "value": "AUTOMOTIVE BUMPER PARTS 200 SETS; HS 8708.10; Ctnr SYNU9988776",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "DESCRIPTION OF GOODS: AUTOMOTIVE BUMPER PARTS 200 SETS; HS 8708.10; Ctnr SYNU9988776"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": [
+      "consignee 为指示抬头 TO ORDER，比对收货人时改用 notify_party 旁证，不得判为缺失或不一致"
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+# 线1 · 单证信息抽取 · Python 依赖
+# Python >= 3.11（本机实测 3.12.10）
+
+# --- PDF 解析（双引擎：文本层走 pdfplumber/PyMuPDF，按页兜底互备） ---
+PyMuPDF>=1.24
+pdfplumber>=0.11
+
+# --- 图像预处理（扫描件矫正/去噪/切图，供 OCR 前处理） ---
+Pillow>=10.0
+opencv-python>=4.9
+
+# --- 契约A 校验（value+confidence+raw_span 结构与 schema 双保险） ---
+pydantic>=2.7
+jsonschema>=4.21
+
+# --- 工具 ---
+requests>=2.31
+python-dotenv>=1.0
+pytest>=8.0
+
+# --- OCR 引擎：不在此固定安装，见 docs/OCR选型对比.md ---
+# 推荐方案（本地，离线，免费）：
+#   paddleocr>=2.7        # 完整版，精度最高，安装体积大
+#   rapidocr-onnxruntime  # 轻量替代：同为 PP-OCR 系模型，ONNX 免 paddle 依赖
+# 云 OCR（不推荐，隐私红线）：见对比文档

@@ -1,0 +1,178 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "commercial_invoice",
+  "source_file": "fixtures-synthetic/INV-2026-0303.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "invoice_no": {
+      "value": "INV-2026-0303",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "INVOICE NO. INV-2026-0303"
+      },
+      "normalized": true
+    },
+    "invoice_date": {
+      "value": "2026-04-02",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Invoice Date: 2026-04-02"
+      },
+      "normalized": true
+    },
+    "seller": {
+      "value": "PACIFIC GIFTS & STATIONERY (HK) LTD",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "From: PACIFIC GIFTS & STATIONERY (HK) LTD"
+      },
+      "normalized": true
+    },
+    "buyer": {
+      "value": "深港电子器件有限公司",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "To: 深港电子器件有限公司 / Add: 深圳市南山区科技园路 88 号 3 栋"
+      },
+      "normalized": true
+    },
+    "order_no": {
+      "value": "PO-FAKE-0001",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "PO No.: PO-FAKE-0001"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "BLUETOOTH SPEAKER",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Description: BLUETOOTH SPEAKER"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 2400.0,
+          "unit": "PCS"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Q'ty"
+      },
+      "normalized": true
+    },
+    "unit_price": {
+      "value": {
+        "amount": 22.0,
+        "currency": "USD"
+      },
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Unit price: US$22.0"
+      },
+      "normalized": true
+    },
+    "total_value": {
+      "value": {
+        "amount": 52800.0,
+        "currency": "USD"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Total Amount: US$52,800.00"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": 240,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Cartons: 240 CTNS"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 11000.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "G.W.: 11000.0 KGS"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 9900.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "N.W.: 9900.0 KGS"
+      },
+      "normalized": true
+    },
+    "marks": {
+      "value": "N/M",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Marks & Nos: N/M"
+      },
+      "normalized": true
+    },
+    "container_no": {
+      "value": "SYNU3344556",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Ctnr No.: SYNU3344556"
+      },
+      "normalized": true
+    },
+    "country_of_origin": {
+      "value": "CN",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "COUNTRY OF ORIGIN: CN"
+      },
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "SHANGHAI",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Loading Port: SHANGHAI"
+      },
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "LOS ANGELES",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Discharge Port: LOS ANGELES"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": []
+  }
+}

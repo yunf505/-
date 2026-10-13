@@ -1,0 +1,163 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "packing_list",
+  "source_file": "fixtures-synthetic/PL-2026-0505.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "packing_list_no": {
+      "value": "PL-2026-0505",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "PACKING LIST No.: PL-2026-0505"
+      },
+      "normalized": true
+    },
+    "invoice_no": {
+      "value": "INV-2026-0505",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Invoice No.: INV-2026-0505"
+      },
+      "normalized": true
+    },
+    "packing_date": {
+      "value": "2026-05-25",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Packing Date: 2026-05-25"
+      },
+      "normalized": true
+    },
+    "seller": {
+      "value": "NORDIC AUTO PARTS AB",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Seller: NORDIC AUTO PARTS AB"
+      },
+      "normalized": true
+    },
+    "buyer": {
+      "value": "东岸国际贸易（深圳）有限公司",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Buyer: 东岸国际贸易（深圳）有限公司"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "LAPTOP",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Description: LAPTOP"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 150.0,
+          "unit": "SET"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "QUANTITY"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": 320,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "TOTAL: 320 CARTONS"
+      },
+      "normalized": true
+    },
+    "kind_of_packages": {
+      "value": "CARTONS",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "320 CARTONS"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 2400.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "G.W.: 2400.0 KGS"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 2160.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "N.W.: 2160.0 KGS"
+      },
+      "normalized": true
+    },
+    "measurement_cbm": {
+      "value": 28.6,
+      "confidence": 0.85,
+      "raw_span": {
+        "page": 1,
+        "text": "MEASUREMENT: 28.6 CBM"
+      },
+      "normalized": true
+    },
+    "marks": {
+      "value": "N/M",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Marks & Nos: N/M"
+      },
+      "normalized": true
+    },
+    "container_no": {
+      "value": "SYNU5566778",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Ctnr No.: SYNU5566778"
+      },
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "GOTHENBURG",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Loading Port: GOTHENBURG"
+      },
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "SHENZHEN",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Discharge Port: SHENZHEN"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": []
+  }
+}

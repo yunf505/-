@@ -1,0 +1,178 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "commercial_invoice",
+  "source_file": "fixtures-synthetic/INV-2026-0707Y.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "invoice_no": {
+      "value": "INV-2026-0707Y",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "INVOICE NO. INV-2026-0707Y"
+      },
+      "normalized": true
+    },
+    "invoice_date": {
+      "value": "2026-07-06",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Invoice Date: 2026-07-06"
+      },
+      "normalized": true
+    },
+    "seller": {
+      "value": "NORDIC ELECTRONICS AB",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "From: NORDIC ELECTRONICS AB"
+      },
+      "normalized": true
+    },
+    "buyer": {
+      "value": "东岸国际贸易（深圳）有限公司",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "To: 东岸国际贸易（深圳）有限公司"
+      },
+      "normalized": true
+    },
+    "order_no": {
+      "value": "PO-FAKE-0001",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "PO No.: PO-FAKE-0001"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "BLUETOOTH SPEAKER",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Description: BLUETOOTH SPEAKER"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 2000.0,
+          "unit": "PCS"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Q'ty"
+      },
+      "normalized": true
+    },
+    "unit_price": {
+      "value": {
+        "amount": 21.0,
+        "currency": "USD"
+      },
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Unit price: US$21.0"
+      },
+      "normalized": true
+    },
+    "total_value": {
+      "value": {
+        "amount": 42000.0,
+        "currency": "USD"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Total Amount: US$42,000.00"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": 200,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Cartons: 200 CTNS"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 8000.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "G.W.: 8000.0 KGS"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 7200.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "N.W.: 7200.0 KGS"
+      },
+      "normalized": true
+    },
+    "marks": {
+      "value": "N/M",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Marks & Nos: N/M"
+      },
+      "normalized": true
+    },
+    "container_no": {
+      "value": "SYNU7777002",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Ctnr No.: SYNU7777002"
+      },
+      "normalized": true
+    },
+    "country_of_origin": {
+      "value": "SE",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "COUNTRY OF ORIGIN: SE"
+      },
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "GOTHENBURG",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Loading Port: GOTHENBURG"
+      },
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "SHENZHEN",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Discharge Port: SHENZHEN"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": []
+  }
+}

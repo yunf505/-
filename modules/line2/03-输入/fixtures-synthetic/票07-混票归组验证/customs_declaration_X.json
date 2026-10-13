@@ -1,0 +1,165 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "customs_declaration",
+  "source_file": "fixtures-synthetic/SYN2026-000707X.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "declaration_no": {
+      "value": "SYN2026-000707X",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "1. Filer Code/Entry No.: SYN2026-000707X"
+      },
+      "normalized": true
+    },
+    "domestic_consignor": {
+      "value": "华宇文具（上海）进出口有限公司",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "30. Importer of Record: 华宇文具（上海）进出口有限公司"
+      },
+      "normalized": true
+    },
+    "overseas_consignee": {
+      "value": null,
+      "confidence": 0,
+      "raw_span": null,
+      "normalized": true
+    },
+    "trading_country": {
+      "value": "CN",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "14. Exporting Country: CN"
+      },
+      "normalized": true
+    },
+    "port_of_dispatch": {
+      "value": "57078",
+      "confidence": 0.5,
+      "raw_span": {
+        "page": 1,
+        "text": "19. Foreign Port of Lading: 57078"
+      },
+      "normalized": false
+    },
+    "port_of_destination": {
+      "value": "2704",
+      "confidence": 0.5,
+      "raw_span": {
+        "page": 1,
+        "text": "20. U.S. Port of Unlading: 2704"
+      },
+      "normalized": false
+    },
+    "transport_mode": {
+      "value": "sea",
+      "confidence": 0.7,
+      "raw_span": {
+        "page": 1,
+        "text": "9. Mode of Transport: 11"
+      },
+      "normalized": true
+    },
+    "transaction_mode": {
+      "value": "FOB",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Incoterm: FOB"
+      },
+      "normalized": true
+    },
+    "hs_code": {
+      "value": [
+        "4820100000"
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "33.A. HTSUS No.: 4820100000"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "A5 笔记本 NOTEBOOK",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "32. Description: A5 笔记本 NOTEBOOK"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 5000.0,
+          "unit": "PCS"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "35. Net Quantity in HTSUS Units"
+      },
+      "normalized": true
+    },
+    "total_value": {
+      "value": {
+        "amount": 15000.0,
+        "currency": "USD"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "39. Total Entered Value: $15,000.00"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 3000.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "34.A. Gross Weight: 3000.0 KG"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 2700.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Net Weight: 2700.0 KG"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": 100,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "34.B. Manifest Qty: 100 CTNS"
+      },
+      "normalized": true
+    },
+    "declaration_date": {
+      "value": "2026-07-10",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "7. Entry Date: 2026-07-10"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": []
+  }
+}

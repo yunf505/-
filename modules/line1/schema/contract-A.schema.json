@@ -1,0 +1,104 @@
+{
+  "schema_version": "0.1-draft",
+  "status": "草案:待 10-02 定稿后冻结(冻结后只加不改)。v1.1 变更=仅新增 commercial_invoice / packing_list 两个 doc_type；既有 customs_declaration / bill_of_lading 的字段与语义一字未改",
+  "doc_type_enum": [
+    "customs_declaration",
+    "bill_of_lading",
+    "commercial_invoice",
+    "packing_list"
+  ],
+  "common": {
+    "doc_type": "customs_declaration | bill_of_lading | commercial_invoice | packing_list",
+    "source_file": "string",
+    "fields": "见 field_specs;每个字段 = FieldValue",
+    "parse_meta": {
+      "ocr_used": "bool",
+      "pages": "int",
+      "warnings": [
+        "string"
+      ]
+    }
+  },
+  "FieldValue": {
+    "value": "归一化后的值(见 normalization 规则);缺失=null",
+    "confidence": "0-1;文本层命中≈0.95 / OCR命中≈0.70 / 推断≈0.5 / 缺失=0",
+    "raw_span": "原文依据:页码+行号或原文片段(必填,供 B 解释与 C 展示)",
+    "normalized": "bool"
+  },
+  "field_specs": {
+    "customs_declaration": {
+      "declaration_no": "海关编号/预录入编号;string;18位规则见填制规范",
+      "domestic_consignor": "境内收发货人;string",
+      "overseas_consignee": "境外收发货人;string",
+      "trading_country": "贸易国(地区);string;建议 ISO 两位码+中文名",
+      "port_of_dispatch": "启运港;string",
+      "port_of_destination": "指运港/入境口岸;string",
+      "transport_mode": "运输方式;string;归一化为枚举 sea|air|rail|road|multimodal",
+      "transaction_mode": "成交方式;string;归一化为 FOB|CIF|CFR|EXW|其他",
+      "hs_code": "商品编号;string;去点号,统一10位数字",
+      "goods_name": "商品名称及规格型号;string",
+      "quantity": "数量及单位;array of {value:float, unit:string}",
+      "total_value": "总价;object {amount:float, currency:string(ISO4217)}",
+      "gross_weight_kg": "毛重;float,单位统一 KG",
+      "net_weight_kg": "净重;float,单位统一 KG",
+      "packages": "件数;int",
+      "declaration_date": "申报日期;string YYYY-MM-DD"
+    },
+    "bill_of_lading": {
+      "bl_no": "提单号;string",
+      "shipper": "string",
+      "consignee": "string",
+      "notify_party": "string",
+      "vessel_voyage": "船名航次;string;建议拆 {{vessel, voyage}}",
+      "port_of_loading": "装货港;string",
+      "port_of_discharge": "卸货港;string",
+      "packages_and_weight": "件数与毛重;object {{packages:int, gross_weight_kg:float, unit:string}}",
+      "goods_description": "货物描述;string;若含 HTS/唛头,另抽取到 hs_code/marks"
+    },
+    "commercial_invoice": {
+      "invoice_no": "发票号;string;去多余空白。跨证主键之一(与装箱单 packing_list.invoice_no、报关单行项 COMM. INV # 对齐)",
+      "invoice_date": "发票日期;string;归一化 YYYY-MM-DD",
+      "seller": "卖方/出票人(发票 From/Issuer);string;仅名称行，不含地址",
+      "buyer": "买方/受票人(发票 To);string;仅名称行，不含地址。美国件比对对象见 schema/美国单证映射表.md",
+      "order_no": "采购订单号/合同号(PO No./S-C No./Contract No.);string",
+      "goods_name": "商品名称;string;与报关单 goods_name 同义，便于跨证比对",
+      "quantity": "数量及单位;array of {value:float, unit:string};与报关单 quantity 同结构",
+      "unit_price": "单价;object {amount:float, currency:string(ISO4217)}",
+      "total_value": "总价/发票总额;object {amount:float, currency:string(ISO4217)};与报关单 total_value 同结构",
+      "packages": "件数(纸箱/托盘等计数);int;与报关单 packages 同义",
+      "gross_weight_kg": "毛重;float,单位统一 KG;LB 需换算(1 LB=0.45359237 KG)",
+      "net_weight_kg": "净重;float,单位统一 KG;LB 需换算",
+      "marks": "唛头(Marks & Nos.);string;N/M 表示无唛头，按 null 处理并在 raw_span 留原文",
+      "container_no": "集装箱号;string;去空格统一为 4 字母+7 数字。跨证最强键",
+      "country_of_origin": "原产国(地区);string",
+      "port_of_loading": "装货港;string;与提单 port_of_loading 同义",
+      "port_of_discharge": "卸货港;string;与提单 port_of_discharge 同义"
+    },
+    "packing_list": {
+      "packing_list_no": "装箱单号(Packing List No./Packing No.);string",
+      "invoice_no": "对应发票号;string;跨证主键——装箱单常以发票号互引，缺失须置 null 并写 warnings",
+      "packing_date": "制单日期;string;归一化 YYYY-MM-DD;单证无此栏则 null",
+      "seller": "发货人/卖方;string;仅名称行",
+      "buyer": "收货人/买方;string;仅名称行",
+      "goods_name": "商品名称;string;与报关单 goods_name 同义",
+      "quantity": "数量及单位;array of {value:float, unit:string}",
+      "packages": "总件数(Total Packages/Cartons);int;取整票合计值，非分行值",
+      "kind_of_packages": "包装种类(CARTONS/PLETS/CRATES 等);string",
+      "gross_weight_kg": "合计毛重;float,单位统一 KG;LB 需换算",
+      "net_weight_kg": "合计净重;float,单位统一 KG;LB 需换算",
+      "measurement_cbm": "总体积;float,单位统一 CBM(立方米);其他单位需换算",
+      "marks": "唛头(Marks & Nos.);string;N/M 按 null 处理",
+      "container_no": "集装箱号;string;去空格统一为 4 字母+7 数字。多柜时取数组或逗号连接并在 raw_span 留全量原文",
+      "port_of_loading": "装货港;string",
+      "port_of_discharge": "卸货港;string"
+    }
+  },
+  "normalization": {
+    "date": "一律 YYYY-MM-DD;无法解析则保留原串并置 normalized=false 且写入 warnings",
+    "money": "去千分位与货币符号,金额转 float,币种单列 ISO4217",
+    "weight": "统一 KG;MT→×1000;LB→×0.45359237",
+    "quantity": "数值 float + 单位字符串分列,不混排",
+    "hs_code": "去点号与空格;10 位为主,不足位保留原样并标 warnings",
+    "party_name": "去多余空白与标点差异,大小写保留原文;比对容差由线2 决定"
+  }
+}

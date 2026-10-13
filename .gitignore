@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+uploads/
+analysis_output/
+tmp/
+.env
+
+# A 交接资料中的实弹记录仅留本机，不随演示代码推送。
+modules/line1/docs/
+modules/line1/给B的说明.md

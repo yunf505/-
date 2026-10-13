@@ -1,0 +1,117 @@
+{
+  "schema_version": "0.1-draft",
+  "doc_type": "packing_list",
+  "source_file": "示例-虚构件（非真实单证，仅示范 packing_list 输出形状）",
+  "prompt_version": "v0.4",
+  "engine": "example-generator",
+  "fields": {
+    "packing_list_no": {
+      "value": "PL-FAKE-2026-001",
+      "confidence": 0.95,
+      "raw_span": "PACKING LIST No.: PL-FAKE-2026-001",
+      "normalized": true
+    },
+    "invoice_no": {
+      "value": "INV-FAKE-2026-001",
+      "confidence": 0.95,
+      "raw_span": "Invoice No.: INV-FAKE-2026-001",
+      "normalized": true
+    },
+    "packing_date": {
+      "value": null,
+      "confidence": 0,
+      "raw_span": null,
+      "normalized": false
+    },
+    "seller": {
+      "value": "ACME FABRICATION LTD",
+      "confidence": 0.95,
+      "raw_span": "Seller: ACME FABRICATION LTD",
+      "normalized": true
+    },
+    "buyer": {
+      "value": "WIDGET IMPORTERS INC",
+      "confidence": 0.95,
+      "raw_span": "Buyer: WIDGET IMPORTERS INC",
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "ALUMINUM GARDEN CHAIR",
+      "confidence": 0.95,
+      "raw_span": "Description: ALUMINUM GARDEN CHAIR",
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 600.0,
+          "unit": "PCS"
+        }
+      ],
+      "confidence": 0.9,
+      "raw_span": "QUANTITY: 600 PCS",
+      "normalized": true
+    },
+    "packages": {
+      "value": 40,
+      "confidence": 0.95,
+      "raw_span": "TOTAL: 40 CARTONS",
+      "normalized": true
+    },
+    "kind_of_packages": {
+      "value": "CARTONS",
+      "confidence": 0.95,
+      "raw_span": "40 CARTONS",
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 1250.5,
+      "confidence": 0.9,
+      "raw_span": "G.W.: 1250.5 KGS",
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 1180.0,
+      "confidence": 0.9,
+      "raw_span": "N.W.: 1180.0 KGS",
+      "normalized": true
+    },
+    "measurement_cbm": {
+      "value": 18.4,
+      "confidence": 0.85,
+      "raw_span": "MEASUREMENT: 18.4 CBM",
+      "normalized": true
+    },
+    "marks": {
+      "value": "AGC/HAMBURG/1-40",
+      "confidence": 0.9,
+      "raw_span": "Marks & Nos: AGC/HAMBURG/1-40",
+      "normalized": true
+    },
+    "container_no": {
+      "value": "CSQU3054383",
+      "confidence": 0.9,
+      "raw_span": "Ctnr No.: CSQU3054383",
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "NINGBO",
+      "confidence": 0.9,
+      "raw_span": "Loading Port: NINGBO",
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "ROTTERDAM",
+      "confidence": 0.9,
+      "raw_span": "Discharge Port: ROTTERDAM",
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": [
+      "本文件为**虚构示例**，仅示范 packing_list 的输出形状，非任何真实票货；packing_date 该样单无此栏，按契约规则置 null 且 confidence=0"
+    ]
+  }
+}

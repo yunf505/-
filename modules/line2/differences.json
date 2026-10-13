@@ -1,0 +1,1807 @@
+{
+  "contract_version": "B-0.1",
+  "generated_by": "compare-engine-v0.1",
+  "generated_at": "2026-10-08T12:50:42",
+  "ticket_count": 8,
+  "tickets": [
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票01-不误报-容差与OCR噪声",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU1234567",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "bill_of_lading.json",
+              "doc_type": "bill_of_lading"
+            },
+            {
+              "file": "commercial_invoice.json",
+              "doc_type": "commercial_invoice"
+            },
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF LOADING: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：bill_of_lading 存地名「SHANGHAI」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF DISCHARGE: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：bill_of_lading 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X003",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：commercial_invoice 存地名「SHANGHAI」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X004",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：commercial_invoice 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [
+        {
+          "id": "N001",
+          "category": "note",
+          "field": "提单号",
+          "semantic_key": "提单号",
+          "verdict": "fuzzy_match",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.bl_no",
+            "value": "MAEU92ZKVJM35",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "B/L NO. MAEU92ZKVJM35"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "parse_meta.warnings[regex:bl_no]",
+            "value": "MAEU SZHVJM535",
+            "confidence": 0.6,
+            "raw_span": {
+              "page": 1,
+              "text": "MAEU SZHVJM535"
+            },
+            "normalized": false,
+            "extracted": true
+          },
+          "message": "提单号模糊匹配命中：bill_of_lading=「MAEU92ZKVJM35」 ↔ customs_declaration=「MAEU SZHVJM535」（ratio=0.769 ≥ 0.7），判为 OCR 噪声不告警",
+          "rule_id": "CMP-ID-BL"
+        },
+        {
+          "id": "N002",
+          "category": "note",
+          "field": "金额",
+          "semantic_key": "金额",
+          "verdict": "within_tolerance",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.total_value.amount",
+            "value": 26762.4,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Total Amount: US$26,762.40"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.total_value.amount",
+            "value": 26762.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "39. Total Entered Value: $26,762.00"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "金额容差内差异：commercial_invoice=26762.4 ↔ customs_declaration=26762（|Δ|=0.4, rel=0.0015%，在阈值内不告警）",
+          "rule_id": "CMP-NUM-AMOUNT",
+          "deviation": {
+            "abs": 0.4000000000014552,
+            "rel": 1.5e-05
+          }
+        }
+      ],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "4820100000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        }
+      ],
+      "skipped": [
+        {
+          "id": "S001",
+          "field": "consignee",
+          "source": "bill_of_lading.json",
+          "reason": "提单为指示抬头「TO ORDER」，属国际贸易标准写法；已改用 notify_party 旁证比对买方链",
+          "policy": "POL-TO-ORDER"
+        }
+      ],
+      "summary": {
+        "checked_fields": 23,
+        "diffs": {
+          "red": 0,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 4,
+        "notes": 2,
+        "alerts": 1,
+        "skipped": 1
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票02-金额超容差",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU7654321",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "commercial_invoice.json",
+              "doc_type": "commercial_invoice"
+            },
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [
+        {
+          "id": "D001",
+          "category": "field_diff",
+          "field": "金额",
+          "semantic_key": "金额",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.total_value.amount",
+            "value": 89000.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Total Amount: US$89,000.00"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.total_value.amount",
+            "value": 84200.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "39. Total Entered Value: $84,200.00"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "金额不一致：commercial_invoice=89000 ↔ customs_declaration=84200（|Δ|=4800, rel=5.39%）",
+          "rule_id": "CMP-NUM-AMOUNT",
+          "verdict": "different",
+          "suggest_action": "核对发票与报关单金额，确认是否存在漏报或错报；容差内差异不阻断",
+          "deviation": {
+            "abs": 4800.0,
+            "rel": 0.053933
+          }
+        }
+      ],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_loading",
+            "value": "GOTHENBURG",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: GOTHENBURG"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：commercial_invoice 存地名「GOTHENBURG」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_discharge",
+            "value": "SHENZHEN",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: SHENZHEN"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：commercial_invoice 存地名「SHENZHEN」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "8708100000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        },
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-003",
+          "level": "yellow",
+          "message": "该批为机动车辆零部件，须按适用 FMVSS 制造并由原厂自我认证方可进口；不合规者禁止进口。请向供货方索取制造商符合性声明",
+          "basis": "C-NHTSA-零部件FMVSS符合性FAQ.pdf",
+          "url": "https://www.nhtsa.gov/importing-vehicle/importation-and-certification-faqs-2",
+          "trigger": {
+            "hs_prefix": "8708"
+          },
+          "id": "A002"
+        }
+      ],
+      "skipped": [],
+      "summary": {
+        "checked_fields": 9,
+        "diffs": {
+          "red": 1,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 2,
+        "skipped": 0
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票03-主体不符-同址不同名",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU3344556",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "commercial_invoice.json",
+              "doc_type": "commercial_invoice"
+            },
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            },
+            {
+              "file": "packing_list.json",
+              "doc_type": "packing_list"
+            }
+          ]
+        }
+      ],
+      "diffs": [
+        {
+          "id": "D001",
+          "category": "field_diff",
+          "field": "买方",
+          "semantic_key": "买方",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.buyer",
+            "value": "深港电子器件有限公司",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "To: 深港电子器件有限公司 / Add: 深圳市南山区科技园路 88 号 3 栋"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.domestic_consignor",
+            "value": "东岸国际贸易（深圳）有限公司",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "30. Importer of Record: 东岸国际贸易（深圳）有限公司 / Add: 深圳市南山区科技园路88号3栋"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "买方疑似身份冒用：地址相同（归一化后 「深圳市南山区科技园路88号3栋」）而主体名不同（commercial_invoice=「深港电子器件有限公司」 ↔ customs_declaration=「东岸国际贸易（深圳）有限公司」）",
+          "rule_id": "CMP-IDENTITY",
+          "verdict": "different",
+          "suggest_action": "疑似身份冒用：地址相同而主体名不同，须核实实际进口方"
+        },
+        {
+          "id": "D002",
+          "category": "field_diff",
+          "field": "毛重",
+          "semantic_key": "毛重",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.gross_weight_kg",
+            "value": 11000.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "G.W.: 11000.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.gross_weight_kg",
+            "value": 9600.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "34.A. Gross Weight: 9600.0 KG"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "毛重不一致：commercial_invoice=11000 ↔ customs_declaration=9600（|Δ|=1400, rel=12.73%）",
+          "rule_id": "CMP-NUM-WEIGHT",
+          "verdict": "different",
+          "suggest_action": "核对实际装柜毛重/净重，必要时向货代索取磅单",
+          "deviation": {
+            "abs": 1400.0,
+            "rel": 0.127273
+          }
+        },
+        {
+          "id": "D003",
+          "category": "field_diff",
+          "field": "净重",
+          "semantic_key": "净重",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.net_weight_kg",
+            "value": 9900.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "N.W.: 9900.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.net_weight_kg",
+            "value": 8640.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Net Weight: 8640.0 KG"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "净重不一致：commercial_invoice=9900 ↔ customs_declaration=8640（|Δ|=1260, rel=12.73%）",
+          "rule_id": "CMP-NUM-WEIGHT",
+          "verdict": "different",
+          "suggest_action": "核对实际装柜毛重/净重，必要时向货代索取磅单",
+          "deviation": {
+            "abs": 1260.0,
+            "rel": 0.127273
+          }
+        },
+        {
+          "id": "D004",
+          "category": "field_diff",
+          "field": "买方",
+          "semantic_key": "买方",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.buyer",
+            "value": "深港电子器件有限公司",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "To: 深港电子器件有限公司 / Add: 深圳市南山区科技园路 88 号 3 栋"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.buyer",
+            "value": "东岸国际贸易（深圳）有限公司",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "Buyer: 东岸国际贸易（深圳）有限公司 / Add: 深圳市南山区科技园路88号3栋"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "买方疑似身份冒用：地址相同（归一化后 「深圳市南山区科技园路88号3栋」）而主体名不同（commercial_invoice=「深港电子器件有限公司」 ↔ packing_list=「东岸国际贸易（深圳）有限公司」）",
+          "rule_id": "CMP-IDENTITY",
+          "verdict": "different",
+          "suggest_action": "疑似身份冒用：地址相同而主体名不同，须核实实际进口方"
+        },
+        {
+          "id": "D005",
+          "category": "field_diff",
+          "field": "毛重",
+          "semantic_key": "毛重",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.gross_weight_kg",
+            "value": 11000.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "G.W.: 11000.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.gross_weight_kg",
+            "value": 9600.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "G.W.: 9600.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "毛重不一致：commercial_invoice=11000 ↔ packing_list=9600（|Δ|=1400, rel=12.73%）",
+          "rule_id": "CMP-NUM-WEIGHT",
+          "verdict": "different",
+          "suggest_action": "核对实际装柜毛重/净重，必要时向货代索取磅单",
+          "deviation": {
+            "abs": 1400.0,
+            "rel": 0.127273
+          }
+        },
+        {
+          "id": "D006",
+          "category": "field_diff",
+          "field": "净重",
+          "semantic_key": "净重",
+          "level": "red",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.net_weight_kg",
+            "value": 9900.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "N.W.: 9900.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.net_weight_kg",
+            "value": 8640.0,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "N.W.: 8640.0 KGS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "净重不一致：commercial_invoice=9900 ↔ packing_list=8640（|Δ|=1260, rel=12.73%）",
+          "rule_id": "CMP-NUM-WEIGHT",
+          "verdict": "different",
+          "suggest_action": "核对实际装柜毛重/净重，必要时向货代索取磅单",
+          "deviation": {
+            "abs": 1260.0,
+            "rel": 0.127273
+          }
+        }
+      ],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：commercial_invoice 存地名「SHANGHAI」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：commercial_invoice 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X003",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "装货港不可比：customs_declaration 存代码「57078」，packing_list 存地名「SHANGHAI」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X004",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "卸货港不可比：customs_declaration 存代码「2704」，packing_list 存地名「LOS ANGELES」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "8517620000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        },
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-005",
+          "level": "yellow",
+          "message": "货物疑似含射频功能，须在进口前依 47 CFR Part 2 取得 FCC 设备授权(Certification 或 SDoC)，并满足 §2.1204 十一项进口条件之一；最终收货人须留存授权文件备查",
+          "basis": "C-FCC-设备授权EquipmentAuthorization.pdf + C-FCC-受管设备进口条件.pdf",
+          "url": "https://www.fcc.gov/oet/ea/importation",
+          "trigger": {
+            "matched_keywords": [
+              "bluetooth"
+            ]
+          },
+          "id": "A002"
+        },
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-006",
+          "level": "orange",
+          "message": "FCC 要求与 HS 编码之间不存在映射关系，本系统的 FCC 判定基于商品功能描述而非 HS 段；另：FCC Form 740 已于 2017-11-02 废止，单证清单不应再列",
+          "basis": "C-FCC-受管设备进口条件.pdf",
+          "url": "https://www.fcc.gov/oet/ea/importation",
+          "trigger": {
+            "note": "反规则，随 R-005 出现"
+          },
+          "id": "A003"
+        }
+      ],
+      "skipped": [],
+      "summary": {
+        "checked_fields": 25,
+        "diffs": {
+          "red": 6,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 4,
+        "notes": 0,
+        "alerts": 3,
+        "skipped": 0
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票04-HS跨证不一致",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU9988776",
+          "group_key_type": "container_no(from_bl_desc)",
+          "docs": [
+            {
+              "file": "bill_of_lading.json",
+              "doc_type": "bill_of_lading"
+            },
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [
+        {
+          "id": "D001",
+          "category": "field_diff",
+          "field": "HS 编码",
+          "semantic_key": "HS 编码",
+          "level": "red",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.goods_description[regex:hs]",
+            "value": [
+              "8708100000",
+              "8708100000"
+            ],
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "DESCRIPTION OF GOODS: AUTOMOTIVE BUMPER PARTS 200 SETS; HS 8708.10; Ctnr SYNU9988776"
+            },
+            "normalized": true,
+            "extracted": true
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.hs_code",
+            "value": [
+              "4820100000"
+            ],
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "33.A. HTSUS No.: 4820100000"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "HS 编码跨证不一致：bill_of_lading=['8708100000', '8708100000'] ↔ customs_declaration=['4820100000']（归一化到 10 位后无交集）",
+          "rule_id": "CMP-HS",
+          "verdict": "different",
+          "suggest_action": "跨证 HS 编码不一致，须核对归类依据（GRI 及类/章注）"
+        }
+      ],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF LOADING: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：bill_of_lading 存地名「SHANGHAI」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF DISCHARGE: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：bill_of_lading 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "4820100000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        }
+      ],
+      "skipped": [
+        {
+          "id": "S001",
+          "field": "consignee",
+          "source": "bill_of_lading.json",
+          "reason": "提单为指示抬头「TO ORDER」，属国际贸易标准写法；已改用 notify_party 旁证比对买方链",
+          "policy": "POL-TO-ORDER"
+        }
+      ],
+      "summary": {
+        "checked_fields": 6,
+        "diffs": {
+          "red": 1,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 1,
+        "skipped": 1
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票05-件数缺失-日期矛盾-缺发票",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU5566778",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            },
+            {
+              "file": "packing_list.json",
+              "doc_type": "packing_list"
+            }
+          ]
+        }
+      ],
+      "diffs": [
+        {
+          "id": "D001",
+          "category": "missing_field",
+          "field": "件数",
+          "semantic_key": "件数",
+          "level": "yellow",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.packages",
+            "value": null,
+            "confidence": 0,
+            "raw_span": null,
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.packages",
+            "value": 320,
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "TOTAL: 320 CARTONS"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "件数缺失：customs_declaration 未载明，packing_list=320；缺失≠0，需人工复核",
+          "rule_id": "CMP-MISSING",
+          "verdict": "different",
+          "suggest_action": "字段缺失，向报关行/货代索取完整单证；缺失≠0"
+        },
+        {
+          "id": "D002",
+          "category": "missing_doc",
+          "field": "单证完整性",
+          "semantic_key": "单证缺失",
+          "level": "yellow",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "parse_meta.warnings[栏18 Missing Docs]",
+            "value": "COMMERCIAL INVOICE",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "栏18 Missing Docs: COMMERCIAL INVOICE（CBP 已登记缺件）"
+            },
+            "normalized": true
+          },
+          "right": {
+            "source": "(group)",
+            "doc_type": "group",
+            "path": "-",
+            "value": null,
+            "confidence": 1.0,
+            "raw_span": null,
+            "normalized": true
+          },
+          "message": "CBP 已在 7501 栏18 登记缺件：COMMERCIAL INVOICE；该票单证不齐，须补齐后重新申报",
+          "rule_id": "CMP-DOC-MISSING",
+          "verdict": "different",
+          "suggest_action": "CBP 已登记缺件（7501 栏18），须补齐后重新申报"
+        },
+        {
+          "id": "D003",
+          "category": "field_diff",
+          "field": "日期链",
+          "semantic_key": "日期矛盾",
+          "level": "red",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.declaration_date",
+            "value": "2026-05-18",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "7. Entry Date: 2026-05-18"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.packing_date",
+            "value": "2026-05-25",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "Packing Date: 2026-05-25"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "日期链矛盾：装箱单制单日（packing_list=2026-05-25）晚于报关申报日（customs_declaration=2026-05-18）；制单顺序不合理",
+          "rule_id": "CMP-DATE",
+          "verdict": "different",
+          "suggest_action": "日期链矛盾，须核对制单顺序与实际装运日"
+        }
+      ],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.port_of_loading",
+            "value": "GOTHENBURG",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: GOTHENBURG"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "装货港不可比：customs_declaration 存代码「57078」，packing_list 存地名「GOTHENBURG」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "right": {
+            "source": "packing_list.json",
+            "doc_type": "packing_list",
+            "path": "fields.port_of_discharge",
+            "value": "SHENZHEN",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: SHENZHEN"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "message": "卸货港不可比：customs_declaration 存代码「2704」，packing_list 存地名「SHENZHEN」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "8471300000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        }
+      ],
+      "skipped": [],
+      "summary": {
+        "checked_fields": 8,
+        "diffs": {
+          "red": 1,
+          "yellow": 2,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 1,
+        "skipped": 0
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票06-港口码对地名-不可比",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SZPLA2400606",
+          "group_key_type": "bl_no",
+          "docs": [
+            {
+              "file": "bill_of_lading.json",
+              "doc_type": "bill_of_lading"
+            },
+            {
+              "file": "customs_declaration.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_loading",
+            "value": "YANTIAN",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF LOADING: YANTIAN"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：bill_of_lading 存地名「YANTIAN」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "bill_of_lading.json",
+            "doc_type": "bill_of_lading",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 1.0,
+            "raw_span": {
+              "page": 1,
+              "text": "PORT OF DISCHARGE: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：bill_of_lading 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "4820100000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        }
+      ],
+      "skipped": [
+        {
+          "id": "S001",
+          "field": "consignee",
+          "source": "bill_of_lading.json",
+          "reason": "提单为指示抬头「TO ORDER」，属国际贸易标准写法；已改用 notify_party 旁证比对买方链",
+          "policy": "POL-TO-ORDER"
+        }
+      ],
+      "summary": {
+        "checked_fields": 6,
+        "diffs": {
+          "red": 0,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 1,
+        "skipped": 1
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票07-混票归组验证#SYNU7777001",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU7777001",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "commercial_invoice_X.json",
+              "doc_type": "commercial_invoice"
+            },
+            {
+              "file": "customs_declaration_X.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice_X.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_loading",
+            "value": "SHANGHAI",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: SHANGHAI"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration_X.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：commercial_invoice 存地名「SHANGHAI」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice_X.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_discharge",
+            "value": "LOS ANGELES",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: LOS ANGELES"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration_X.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：commercial_invoice 存地名「LOS ANGELES」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "4820100000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        }
+      ],
+      "skipped": [],
+      "summary": {
+        "checked_fields": 9,
+        "diffs": {
+          "red": 0,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 1,
+        "skipped": 0
+      }
+    },
+    {
+      "contract_version": "B-0.1",
+      "ticket_id": "票07-混票归组验证#SYNU7777002",
+      "generated_by": "compare-engine-v0.1",
+      "groups": [
+        {
+          "group_key": "SYNU7777002",
+          "group_key_type": "container_no",
+          "docs": [
+            {
+              "file": "commercial_invoice_Y.json",
+              "doc_type": "commercial_invoice"
+            },
+            {
+              "file": "customs_declaration_Y.json",
+              "doc_type": "customs_declaration"
+            }
+          ]
+        }
+      ],
+      "diffs": [],
+      "not_comparable": [
+        {
+          "id": "X001",
+          "category": "not_comparable",
+          "field": "装货港",
+          "semantic_key": "装货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice_Y.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_loading",
+            "value": "GOTHENBURG",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Loading Port: GOTHENBURG"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration_Y.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_dispatch",
+            "value": "57078",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "19. Foreign Port of Lading: 57078"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "装货港不可比：commercial_invoice 存地名「GOTHENBURG」，customs_declaration 存代码「57078」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        },
+        {
+          "id": "X002",
+          "category": "not_comparable",
+          "field": "卸货港",
+          "semantic_key": "卸货港",
+          "level": "orange",
+          "verdict": "not_comparable",
+          "left": {
+            "source": "commercial_invoice_Y.json",
+            "doc_type": "commercial_invoice",
+            "path": "fields.port_of_discharge",
+            "value": "SHENZHEN",
+            "confidence": 0.95,
+            "raw_span": {
+              "page": 1,
+              "text": "Discharge Port: SHENZHEN"
+            },
+            "normalized": true,
+            "extracted": false
+          },
+          "right": {
+            "source": "customs_declaration_Y.json",
+            "doc_type": "customs_declaration",
+            "path": "fields.port_of_destination",
+            "value": "2704",
+            "confidence": 0.5,
+            "raw_span": {
+              "page": 1,
+              "text": "20. U.S. Port of Unlading: 2704"
+            },
+            "normalized": false,
+            "extracted": false
+          },
+          "message": "卸货港不可比：commercial_invoice 存地名「SHENZHEN」，customs_declaration 存代码「2704」；按映射表 §5.1 规则 2 判不可比，不判不一致",
+          "rule_id": "CMP-PORT-NC",
+          "reason": "code-vs-name",
+          "suggest_action": "港口一码一名，无法直接比对；如需硬判请查 HTS Annex C"
+        }
+      ],
+      "notes": [],
+      "alerts": [
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-002",
+          "level": "orange",
+          "message": "归类须依《归类总规则》(GRI) 及相应类注、章注确定，建议复核本票所涉章节是否存在排除条款",
+          "basis": "C-USITC-GRI-归类总规则.pdf",
+          "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=General%20Rules%20of%20Interpretation",
+          "trigger": {
+            "hs_code": [
+              "8517620000"
+            ],
+            "matched_scope": "全部 HS"
+          },
+          "id": "A001"
+        },
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-005",
+          "level": "yellow",
+          "message": "货物疑似含射频功能，须在进口前依 47 CFR Part 2 取得 FCC 设备授权(Certification 或 SDoC)，并满足 §2.1204 十一项进口条件之一；最终收货人须留存授权文件备查",
+          "basis": "C-FCC-设备授权EquipmentAuthorization.pdf + C-FCC-受管设备进口条件.pdf",
+          "url": "https://www.fcc.gov/oet/ea/importation",
+          "trigger": {
+            "matched_keywords": [
+              "bluetooth"
+            ]
+          },
+          "id": "A002"
+        },
+        {
+          "category": "compliance_alert",
+          "rule_id": "R-006",
+          "level": "orange",
+          "message": "FCC 要求与 HS 编码之间不存在映射关系，本系统的 FCC 判定基于商品功能描述而非 HS 段；另：FCC Form 740 已于 2017-11-02 废止，单证清单不应再列",
+          "basis": "C-FCC-受管设备进口条件.pdf",
+          "url": "https://www.fcc.gov/oet/ea/importation",
+          "trigger": {
+            "note": "反规则，随 R-005 出现"
+          },
+          "id": "A003"
+        }
+      ],
+      "skipped": [],
+      "summary": {
+        "checked_fields": 9,
+        "diffs": {
+          "red": 0,
+          "yellow": 0,
+          "orange": 0
+        },
+        "not_comparable": 2,
+        "notes": 0,
+        "alerts": 3,
+        "skipped": 0
+      }
+    }
+  ]
+}

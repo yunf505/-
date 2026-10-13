@@ -1,0 +1,165 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "customs_declaration",
+  "source_file": "fixtures-synthetic/SYN2026-000505.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "declaration_no": {
+      "value": "SYN2026-000505",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "1. Filer Code/Entry No.: SYN2026-000505"
+      },
+      "normalized": true
+    },
+    "domestic_consignor": {
+      "value": "东岸国际贸易（深圳）有限公司",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "30. Importer of Record: 东岸国际贸易（深圳）有限公司"
+      },
+      "normalized": true
+    },
+    "overseas_consignee": {
+      "value": null,
+      "confidence": 0,
+      "raw_span": null,
+      "normalized": true
+    },
+    "trading_country": {
+      "value": "CN",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "14. Exporting Country: CN"
+      },
+      "normalized": true
+    },
+    "port_of_dispatch": {
+      "value": "57078",
+      "confidence": 0.5,
+      "raw_span": {
+        "page": 1,
+        "text": "19. Foreign Port of Lading: 57078"
+      },
+      "normalized": false
+    },
+    "port_of_destination": {
+      "value": "2704",
+      "confidence": 0.5,
+      "raw_span": {
+        "page": 1,
+        "text": "20. U.S. Port of Unlading: 2704"
+      },
+      "normalized": false
+    },
+    "transport_mode": {
+      "value": "sea",
+      "confidence": 0.7,
+      "raw_span": {
+        "page": 1,
+        "text": "9. Mode of Transport: 11"
+      },
+      "normalized": true
+    },
+    "transaction_mode": {
+      "value": "FOB",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Incoterm: FOB"
+      },
+      "normalized": true
+    },
+    "hs_code": {
+      "value": [
+        "8471300000"
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "33.A. HTSUS No.: 8471300000"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "笔记本电脑 LAPTOP",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "32. Description: 笔记本电脑 LAPTOP"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 150.0,
+          "unit": "SET"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "35. Net Quantity in HTSUS Units"
+      },
+      "normalized": true
+    },
+    "total_value": {
+      "value": {
+        "amount": 132000.0,
+        "currency": "USD"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "39. Total Entered Value: $132,000.00"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 2400.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "34.A. Gross Weight: 2400.0 KG"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 2160.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Net Weight: 2160.0 KG"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": null,
+      "confidence": 0,
+      "raw_span": null,
+      "normalized": true
+    },
+    "declaration_date": {
+      "value": "2026-05-18",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "7. Entry Date: 2026-05-18"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": [
+      "34.B Manifest Qty 栏空白，按铁律置 null 且 confidence=0，不得按 0 处理",
+      "栏18 Missing Docs: COMMERCIAL INVOICE（CBP 已登记缺件）"
+    ]
+  }
+}

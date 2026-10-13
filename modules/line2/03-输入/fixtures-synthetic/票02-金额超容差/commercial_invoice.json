@@ -1,0 +1,178 @@
+{
+  "schema_version": "0.1-draft",
+  "prompt_version": "v0.4",
+  "doc_type": "commercial_invoice",
+  "source_file": "fixtures-synthetic/INV-2026-0202.json",
+  "engine": "self-made-fixture",
+  "fields": {
+    "invoice_no": {
+      "value": "INV-2026-0202",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "INVOICE NO. INV-2026-0202"
+      },
+      "normalized": true
+    },
+    "invoice_date": {
+      "value": "2026-03-20",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Invoice Date: 2026-03-20"
+      },
+      "normalized": true
+    },
+    "seller": {
+      "value": "NORDIC AUTO PARTS AB",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "From: NORDIC AUTO PARTS AB"
+      },
+      "normalized": true
+    },
+    "buyer": {
+      "value": "东岸国际贸易（深圳）有限公司",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "To: 东岸国际贸易（深圳）有限公司"
+      },
+      "normalized": true
+    },
+    "order_no": {
+      "value": "PO-FAKE-0001",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "PO No.: PO-FAKE-0001"
+      },
+      "normalized": true
+    },
+    "goods_name": {
+      "value": "AUTOMOTIVE BUMPER",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Description: AUTOMOTIVE BUMPER"
+      },
+      "normalized": true
+    },
+    "quantity": {
+      "value": [
+        {
+          "value": 320.0,
+          "unit": "SET"
+        }
+      ],
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Q'ty"
+      },
+      "normalized": true
+    },
+    "unit_price": {
+      "value": {
+        "amount": 262.5,
+        "currency": "USD"
+      },
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Unit price: US$262.5"
+      },
+      "normalized": true
+    },
+    "total_value": {
+      "value": {
+        "amount": 89000.0,
+        "currency": "USD"
+      },
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Total Amount: US$89,000.00"
+      },
+      "normalized": true
+    },
+    "packages": {
+      "value": 320,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Cartons: 320 CTNS"
+      },
+      "normalized": true
+    },
+    "gross_weight_kg": {
+      "value": 16920.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "G.W.: 16920.0 KGS"
+      },
+      "normalized": true
+    },
+    "net_weight_kg": {
+      "value": 15240.0,
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "N.W.: 15240.0 KGS"
+      },
+      "normalized": true
+    },
+    "marks": {
+      "value": "N/M",
+      "confidence": 0.9,
+      "raw_span": {
+        "page": 1,
+        "text": "Marks & Nos: N/M"
+      },
+      "normalized": true
+    },
+    "container_no": {
+      "value": "SYNU7654321",
+      "confidence": 1.0,
+      "raw_span": {
+        "page": 1,
+        "text": "Ctnr No.: SYNU7654321"
+      },
+      "normalized": true
+    },
+    "country_of_origin": {
+      "value": "SE",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "COUNTRY OF ORIGIN: SE"
+      },
+      "normalized": true
+    },
+    "port_of_loading": {
+      "value": "GOTHENBURG",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Loading Port: GOTHENBURG"
+      },
+      "normalized": true
+    },
+    "port_of_discharge": {
+      "value": "SHENZHEN",
+      "confidence": 0.95,
+      "raw_span": {
+        "page": 1,
+        "text": "Discharge Port: SHENZHEN"
+      },
+      "normalized": true
+    }
+  },
+  "parse_meta": {
+    "ocr_used": false,
+    "pages": 1,
+    "warnings": []
+  }
+}

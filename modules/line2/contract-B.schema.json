@@ -1,0 +1,336 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://team.local/contracts/B-0.1.schema.json",
+  "title": "契约B · 跨单证比对结果 JSON Schema",
+  "description": "线2 比对引擎输出。契约 v0.1，遵循「只加不改」约定：冻结字段不得删改，后续一律为新增或可选。\n\n【冻结红线】diffs[] 里 field / left / right / level / message / rule_id 这 6 个字段是冻结契约，必须原样保留。\n【level 硬约束】只能用 red / yellow / orange 三个值（硬约束：引擎只输出这三个英文值，中文映射由前端做）。\n【顶层新增】not_comparable[] / notes[] 是后续新增的可选顶层字段，属「只加不改」允许范围，前端不读也不影响运行。",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "ticket_id",
+    "generated_by",
+    "groups",
+    "diffs",
+    "alerts",
+    "skipped",
+    "summary"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "const": "B-0.1",
+      "description": "契约版本号，本 schema 对应 B-0.1"
+    },
+    "ticket_id": {
+      "type": "string",
+      "description": "票号（对应 fixtures-synthetic 目录名，或生产环境的运单号）"
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "生成方标识，例如 compare-engine-v0.1"
+    },
+    "groups": {
+      "type": "array",
+      "description": "同票归组结果。本引擎按目录归组，通常只有 1 个 group。",
+      "items": { "$ref": "#/definitions/group" }
+    },
+    "diffs": {
+      "type": "array",
+      "description": "真实不一致（red/yellow/orange）。6 必填字段冻结。",
+      "items": { "$ref": "#/definitions/diff" }
+    },
+    "not_comparable": {
+      "type": "array",
+      "description": "【顶层新增，可选】不可比字段（港口一码一名、单证无该栏等）。verdict=not_comparable，level 固定为 orange 但不进 diffs[]，避免与真实差异混淆。",
+      "items": { "$ref": "#/definitions/notComparableEntry" }
+    },
+    "notes": {
+      "type": "array",
+      "description": "【顶层新增，可选】容差内差异（金额绿区）与 OCR 模糊匹配命中（编号 ratio ≥ 0.70）。verdict ∈ {within_tolerance, fuzzy_match, match}。前端可选渲染成「已识别但不告警」区块。",
+      "items": { "$ref": "#/definitions/note" }
+    },
+    "alerts": {
+      "type": "array",
+      "description": "合规规则命中（10 条美国进口规则）。不是差异，前端应单独一个「合规提示」区块渲染。",
+      "items": { "$ref": "#/definitions/alert" }
+    },
+    "skipped": {
+      "type": "array",
+      "description": "主动放弃比对的字段及理由（例如 TO ORDER 指示抬头）。灰显折叠区，证明系统不是瞎比。",
+      "items": { "$ref": "#/definitions/skip" }
+    },
+    "summary": { "$ref": "#/definitions/summary" }
+  },
+  "definitions": {
+    "level": {
+      "type": "string",
+      "enum": ["red", "yellow", "orange"],
+      "description": "分工表硬约束③：level 只能用这三个英文值。中英文映射由前端做（red=红/阻断，yellow=黄/需人工复核，orange=橙/存疑）。"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["different", "within_tolerance", "not_comparable", "fuzzy_match", "match"],
+      "description": "【可选新增】v1.1 §3.4 四档语义。different → 进 diffs[]；within_tolerance/fuzzy_match/match → 进 notes[]；not_comparable → 进 not_comparable[]。"
+    },
+    "rawSpan": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "page": { "type": ["integer", "null"] },
+            "text": { "type": ["string", "null"] }
+          },
+          "additionalProperties": true
+        },
+        { "type": "null" }
+      ],
+      "description": "原文位置。fixtures/README §3-①：A 的示例用字符串、A 的实产 JSON 用对象，本引擎两种都能吃。"
+    },
+    "side": {
+      "type": "object",
+      "description": "差异的左侧或右侧（一份单证的一个字段）。",
+      "required": ["source", "path", "value"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "文件名或来源标识"
+        },
+        "doc_type": {
+          "type": "string",
+          "enum": ["customs_declaration", "commercial_invoice", "packing_list", "bill_of_lading", "group"],
+          "description": "契约A v1.1 的 doc_type"
+        },
+        "path": {
+          "type": "string",
+          "description": "字段路径，如 fields.total_value.amount 或 parse_meta.warnings[regex:bl_no]"
+        },
+        "value": {
+          "description": "字段值。可以是标量、数组、对象、null。",
+          "type": ["string", "number", "boolean", "array", "object", "null"]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "抽取置信度。<0.7 触发降级（阈值文档第三节）"
+        },
+        "raw_span": { "$ref": "#/definitions/rawSpan" },
+        "normalized": {
+          "type": "boolean",
+          "description": "是否已归一化。false 触发降级"
+        },
+        "extracted": {
+          "type": "boolean",
+          "description": "【可选新增】true 表示该值不是从字段直接读的，而是从其他文本正则抽出的（如提单箱号从 goods_description 抽，报关单提单号从 warnings 抽）"
+        }
+      }
+    },
+    "deviation": {
+      "type": "object",
+      "description": "【可选新增】数值偏差。前端在数字旁小字标注「偏差 0.74%」。",
+      "properties": {
+        "abs": { "type": ["number", "null"] },
+        "rel": { "type": ["number", "null"], "description": "相对偏差 0–1，例如 0.0074 表示 0.74%" }
+      }
+    },
+    "diff": {
+      "type": "object",
+      "description": "一条差异记录。6 必填字段是冻结契约，其余为「只加不改」的可选字段。",
+      "required": ["field", "left", "right", "level", "message", "rule_id"],
+      "additionalProperties": true,
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "【冻结】字段名或语义键，如「金额」「毛重」「买方」"
+        },
+        "left": { "$ref": "#/definitions/side" },
+        "right": { "$ref": "#/definitions/side" },
+        "level": { "$ref": "#/definitions/level" },
+        "message": {
+          "type": "string",
+          "description": "【冻结】人类可读的差异描述，f-string 模板化生成，无 LLM 参与"
+        },
+        "rule_id": {
+          "type": "string",
+          "description": "【冻结】触发的规则 ID，如 CMP-NUM-AMOUNT / CMP-IDENTITY / CMP-DATE / CMP-MISSING / CMP-DOC-MISSING",
+          "pattern": "^CMP-[A-Z0-9\\-]+$"
+        },
+        "id": {
+          "type": "string",
+          "description": "【可选新增】本条 diff 的编号，如 D001",
+          "pattern": "^D\\d{3}$"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["field_diff", "missing_field", "missing_doc", "date_conflict", "identity"],
+          "description": "【可选新增】差异类别，方便前端分组渲染"
+        },
+        "semantic_key": {
+          "type": "string",
+          "description": "【可选新增】跨证字段矩阵里的语义键（与 field 通常一致）"
+        },
+        "verdict": {
+          "$ref": "#/definitions/verdict",
+          "description": "【可选新增】diffs[] 里恒为 different"
+        },
+        "deviation": { "$ref": "#/definitions/deviation" },
+        "suggest_action": {
+          "type": "string",
+          "description": "【可选新增】给报关员的建议文案，模板化"
+        },
+        "downgrade_reasons": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "【可选新增】若本条 level 因低置信/未归一化/warnings 而被降级（阈值文档第三节），此处记录降级原因"
+        }
+      }
+    },
+    "notComparableEntry": {
+      "type": "object",
+      "description": "【顶层新增】不可比条目。level 固定 orange，verdict 固定 not_comparable。",
+      "required": ["field", "left", "right", "level", "verdict", "message", "rule_id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^X\\d{3}$" },
+        "category": { "type": "string", "const": "not_comparable" },
+        "field": { "type": "string" },
+        "semantic_key": { "type": "string" },
+        "level": { "$ref": "#/definitions/level" },
+        "verdict": { "type": "string", "const": "not_comparable" },
+        "left": { "$ref": "#/definitions/side" },
+        "right": { "$ref": "#/definitions/side" },
+        "message": { "type": "string" },
+        "rule_id": { "type": "string", "description": "如 CMP-PORT-NC" },
+        "reason": {
+          "type": "string",
+          "description": "不可比的具体原因，如 code-vs-name / code-vs-code / name-vs-name",
+          "enum": ["code-vs-name", "code-vs-code", "name-vs-name", "missing-column"]
+        },
+        "suggest_action": { "type": "string" }
+      }
+    },
+    "note": {
+      "type": "object",
+      "description": "【顶层新增】容差内差异或模糊匹配命中，不进 diffs[]。",
+      "required": ["field", "verdict", "left", "right", "message", "rule_id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^N\\d{3}$" },
+        "category": { "type": "string", "const": "note" },
+        "field": { "type": "string" },
+        "semantic_key": { "type": "string" },
+        "verdict": {
+          "type": "string",
+          "enum": ["within_tolerance", "fuzzy_match", "match"]
+        },
+        "left": { "$ref": "#/definitions/side" },
+        "right": { "$ref": "#/definitions/side" },
+        "message": { "type": "string" },
+        "rule_id": { "type": "string" },
+        "deviation": { "$ref": "#/definitions/deviation" }
+      }
+    },
+    "alert": {
+      "type": "object",
+      "description": "合规规则命中（10 条美国进口规则之一）。",
+      "required": ["rule_id", "level", "message", "basis"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^A\\d{3}$" },
+        "category": { "type": "string", "const": "compliance_alert" },
+        "rule_id": {
+          "type": "string",
+          "pattern": "^R-\\d{3}$",
+          "description": "R-001 到 R-010"
+        },
+        "level": { "$ref": "#/definitions/level" },
+        "message": { "type": "string" },
+        "basis": {
+          "type": "string",
+          "description": "规则依据文件名，如 C-USITC-GRI-归类总规则.pdf"
+        },
+        "url": {
+          "type": "string",
+          "description": "官方 URL"
+        },
+        "trigger": {
+          "type": "object",
+          "description": "触发条件的实际取值，如 {hs_prefix: '8708'} 或 {matched_keywords: ['bluetooth']}",
+          "additionalProperties": true
+        }
+      }
+    },
+    "skip": {
+      "type": "object",
+      "description": "主动放弃比对的字段及理由。",
+      "required": ["field", "reason", "policy"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^S\\d{3}$" },
+        "field": { "type": "string" },
+        "source": { "type": "string" },
+        "reason": { "type": "string" },
+        "policy": {
+          "type": "string",
+          "description": "策略 ID，如 POL-TO-ORDER（指示抬头）/ POL-BOTH-NULL（两侧均空）",
+          "pattern": "^POL-[A-Z0-9\\-]+$"
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "required": ["group_key", "group_key_type", "docs"],
+      "properties": {
+        "group_key": { "type": "string" },
+        "group_key_type": {
+          "type": "string",
+          "enum": [
+            "container_no",
+            "container_no(from_bl_desc)",
+            "bl_no",
+            "weak_invoice_triple",
+            "declaration_no",
+            "directory_name"
+          ],
+          "description": "归组用的键类型（P0 补丁：4 档降级链，如实反映用了哪一档）。优先级：container_no（直接字段） > container_no(from_bl_desc)（从提单描述抽） > bl_no（含从报关单 warnings 抽） > weak_invoice_triple（invoice_no + 金额 + 件数） > declaration_no（弱键） > directory_name（兜底）。"
+        },
+        "docs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["file", "doc_type"],
+            "properties": {
+              "file": { "type": "string" },
+              "doc_type": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["checked_fields", "diffs", "alerts", "skipped"],
+      "properties": {
+        "checked_fields": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "本票跑过的字段级比对总次数（不含合规规则）"
+        },
+        "diffs": {
+          "type": "object",
+          "required": ["red", "yellow", "orange"],
+          "properties": {
+            "red": { "type": "integer", "minimum": 0 },
+            "yellow": { "type": "integer", "minimum": 0 },
+            "orange": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "not_comparable": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "integer", "minimum": 0 },
+        "alerts": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}
