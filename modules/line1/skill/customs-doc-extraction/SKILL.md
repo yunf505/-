@@ -1,7 +1,7 @@
 ---
 name: customs-doc-extraction
 description: Extract structured fields from cross-border trade documents (customs declarations CBP 7501/3461, China customs forms, bills of lading) as PDFs or images, and output normalized Contract-A JSON with per-field value + confidence + raw_span. Use this skill whenever the user asks to extract, parse, digitize, or structure information from customs declarations, entry summaries, bills of lading, packing lists, or any cross-border logistics/trade document — even if they only say "read this customs form" or "get the fields out of this shipping document". Also use when asked to produce Contract-A JSON or validate such output. NOT for difference comparison or compliance judgment (that is a downstream module).
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Customs Document Extraction (Contract-A)
@@ -36,6 +36,34 @@ Rules of thumb (learned from live-fire testing):
   pages, then re-render those pages at 200 dpi.
 - Rotated pages (90°/270°) can be read as-is by vision; no pre-rotation needed.
 - GIF/JPG inputs are fine directly.
+
+### 1b. No-vision mode (text-only agents — e.g. Codex / a CLI LLM with no image input)
+
+The render-and-read path above needs an agent that can **see** images. If you cannot
+see the PNG, do not stall — use the local OCR bridge to convert the page into text,
+then continue with steps 2–5 reading **that text**:
+
+```bash
+python <skill-dir>/scripts/ocr_dump.py <file.pdf> --pages 2 --dpi 200 --out page.txt
+# sideways scan: add --rotate 90 ; dense/blur: --dpi 300 ; want bboxes+confidence: --json page.json
+```
+
+- `ocr_dump.py` runs **rapidocr-onnxruntime fully local** (no cloud, no network) — this is
+  mandatory for real/confidential documents; never send them to a cloud OCR.
+- Your `raw_span` in this mode is the **verbatim OCR text line** (there is no pixel box).
+- OCR noise is expected: lookalikes (B/8, D/Q, O/0, I/1), thousands-separators vs decimal
+  points, stamp/handwriting occlusion. For any critical ID / amount / HS code, re-run that
+  page at `--dpi 400` (or `render_pdf.py --clip` + high-dpi crop) before trusting it; if it
+  is still ambiguous set the field `null` with `confidence: 0` — **never guess**.
+- Set `engine` to include the model + bridge (e.g. `"codex + local-rapidocr-ocr-v1"`) and
+  `parse_meta.ocr_used: true` so downstream can tell the two paths apart.
+
+> **Important layout caveat:** real CBP 7501s are numbered-box forms, so their OCR text has
+> no `LABEL: value` structure. If your downstream step is a **regex/`标签:值` parser**, it
+> will NOT recover Contract-A from a real form scan even after OCR — it only fits clean
+> text-layout templates. To extract real forms without vision, feed the OCR text to a
+> **text agent instructed to follow this skill's contract + protocol-rules**, not to a
+> fixed regex parser.
 
 ### 2. Classify the document
 
