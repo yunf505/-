@@ -22,6 +22,17 @@ from urllib.parse import unquote, urlsplit
 
 from extract_local import DOC_TYPES, ExtractionError, extract_pdf
 
+# --- 线1 DeepSeek 引擎接线（本地OCR→deepseek-flash API→契约A；失败自动退回本地解析器） ---
+_LINE1 = Path(__file__).resolve().parent / "modules" / "line1"
+if str(_LINE1 / "src") not in sys.path:
+    sys.path.insert(0, str(_LINE1 / "src"))
+try:
+    from deepseek_extract import extract_deepseek, DeepSeekError
+    DEEPSEEK_READY = True
+except Exception as _exc:  # 缺依赖/缺文件时不阻断启动，退回纯本地
+    extract_deepseek, DeepSeekError, DEEPSEEK_READY = None, None, False
+    print(f"[WARN] DeepSeek 引擎不可用（{ _exc }），将使用本地文本解析器。", file=sys.stderr)
+
 
 ROOT = Path(__file__).resolve().parent
 VENDOR = ROOT / "vendor"
@@ -31,6 +42,23 @@ LINE1 = ROOT / "modules" / "line1"
 LINE2 = ROOT / "modules" / "line2"
 MAX_REQUEST_BYTES = 30 * 1024 * 1024
 MAX_FILE_BYTES = 12 * 1024 * 1024
+
+
+def extract_document(pdf_bytes: bytes, doc_type: str, filename: str) -> dict:
+    """DeepSeek 引擎优先；不可用/失败时退回本地文本解析器（离线演示路径）。"""
+    if DEEPSEEK_READY:
+        try:
+            return extract_deepseek(pdf_bytes, doc_type, filename)
+        except DeepSeekError as exc:
+            print(f"[WARN] DeepSeek 引擎失败（{exc}），退回本地解析器：{filename}", file=sys.stderr)
+        except Exception as exc:  # 网络/解析等意外，不让演示直接崩
+            print(f"[WARN] DeepSeek 引擎异常（{exc}），退回本地解析器：{filename}", file=sys.stderr)
+    document = extract_pdf(pdf_bytes, doc_type, filename)
+    if DEEPSEEK_READY:
+        document.setdefault("parse_meta", {}).setdefault("warnings", []).append(
+            "DeepSeek 引擎不可用，本结果由本地文本解析器生成"
+        )
+    return document
 
 
 def analyze(files: dict[str, tuple[str, bytes]]) -> dict:
@@ -46,7 +74,7 @@ def analyze(files: dict[str, tuple[str, bytes]]) -> dict:
             filename, pdf_bytes = files[doc_type]
             if len(pdf_bytes) > MAX_FILE_BYTES:
                 raise ExtractionError(f"{filename} 超过单文件 12 MB 限制。")
-            document = extract_pdf(pdf_bytes, doc_type, filename)
+            document = extract_document(pdf_bytes, doc_type, filename)
             json_path = workdir / f"{doc_type}.json"
             json_path.write_text(json.dumps(document, ensure_ascii=False, indent=2), encoding="utf-8")
             check = subprocess.run(
