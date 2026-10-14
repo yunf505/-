@@ -47,27 +47,29 @@ class DeepSeekError(RuntimeError):
 # ------------------------------------------------------------------ config
 
 def _cfg():
-    # .env is optional; simplest: read ROOT/.env manually if python-dotenv absent
+    # Read the file on each request so a key entered after server startup takes effect.
     env_file = ROOT / ".env"
+    file_cfg = {}
     if env_file.is_file():
         for line in env_file.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip())
+                file_cfg[k.strip()] = v.strip()
     return {
-        "api_key": os.getenv("DEEPSEEK_API_KEY", ""),
-        "base_url": os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
-        "model": os.getenv("DEEPSEEK_MODEL", "deepseek-flash"),
+        "api_key": os.getenv("DEEPSEEK_API_KEY") or file_cfg.get("DEEPSEEK_API_KEY", ""),
+        "base_url": os.getenv("DEEPSEEK_BASE_URL") or file_cfg.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+        "model": os.getenv("DEEPSEEK_MODEL") or file_cfg.get("DEEPSEEK_MODEL", "deepseek-flash"),
     }
 
 
 # ------------------------------------------------------------------ local OCR (bytes-friendly)
 
-def ocr_text(pdf_source, dpi: int = 200) -> tuple[str, int]:
-    """pdf_source: bytes or path. Returns (text, page_count). Fully local."""
+def ocr_text(pdf_source, dpi: int = 200) -> tuple[str, int, bool]:
+    """Read usable PDF text layers; OCR image-only pages locally."""
     import pymupdf
-    engine = ocr_dump.load_ocr()
+    engine = None
+    ocr_used = False
     if isinstance(pdf_source, (bytes, bytearray)):
         doc = pymupdf.open(stream=bytes(pdf_source), filetype="pdf")
     else:
@@ -78,6 +80,14 @@ def ocr_text(pdf_source, dpi: int = 200) -> tuple[str, int]:
         pages = len(doc)
         parts: list[str] = []
         for i in range(pages):
+            embedded = doc[i].get_text("text", sort=True).strip()
+            if sum(char.isalnum() for char in embedded) >= 100:
+                parts.append(f"=== PAGE {i + 1} (PDF text layer) ===")
+                parts.append(embedded)
+                continue
+            if engine is None:
+                engine = ocr_dump.load_ocr()
+            ocr_used = True
             img, w, h = ocr_dump.page_to_bgr(doc, i, dpi, 0)
             result, _ = engine(img)
             _segs, lines = ocr_dump.to_lines(result or [])
@@ -86,7 +96,7 @@ def ocr_text(pdf_source, dpi: int = 200) -> tuple[str, int]:
                 parts.extend(ln["text"] for ln in lines)
             else:
                 parts.append("(no text recognized)")
-        return "\n".join(parts), pages
+        return "\n".join(parts), pages, ocr_used
     finally:
         doc.close()
 
@@ -117,10 +127,18 @@ def call_deepseek(prompt: str, api_key: str, base_url: str, model: str, timeout:
     url = base_url.rstrip("/") + "/chat/completions"
     body = {
         "model": model,
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": [
+            {"role": "system", "content": (
+                '只输出合法 JSON 对象，不要解释。格式示例：'
+                '{"fields":{"example":{"value":null,"confidence":0,'
+                '"raw_span":null,"normalized":true}},"parse_meta":{"warnings":[]}}'
+            )},
+            {"role": "user", "content": prompt},
+        ],
+        "thinking": {"type": "disabled"},
         "temperature": 0,
         "response_format": {"type": "json_object"},
-        "max_tokens": 4096,
+        "max_tokens": 8192,
     }
     resp = requests.post(
         url,
@@ -128,11 +146,16 @@ def call_deepseek(prompt: str, api_key: str, base_url: str, model: str, timeout:
         json=body, timeout=timeout,
     )
     if resp.status_code != 200:
+        if resp.status_code in (401, 403):
+            raise DeepSeekError(f"DeepSeek HTTP {resp.status_code}: API 密钥未通过认证")
         raise DeepSeekError(f"DeepSeek HTTP {resp.status_code}: {resp.text[:300]}")
     try:
-        content = resp.json()["choices"][0]["message"]["content"]
+        choice = resp.json()["choices"][0]
+        content = choice["message"]["content"]
     except Exception as exc:  # noqa: BLE001
         raise DeepSeekError(f"DeepSeek 响应结构异常: {exc}") from exc
+    if choice.get("finish_reason") == "length":
+        raise DeepSeekError("DeepSeek 输出达到 token 上限，JSON 可能被截断")
     if not content:
         raise DeepSeekError("DeepSeek 返回空内容")
     return content
@@ -159,7 +182,7 @@ def parse_json(content: str) -> dict:
 
 # ------------------------------------------------------------------ post-process + light gate
 
-def postprocess(data: dict, doc_type: str, source_name: str, pages: int) -> dict:
+def postprocess(data: dict, doc_type: str, source_name: str, pages: int, ocr_used: bool) -> dict:
     schema = _find_schema()
     specs = schema["field_specs"][doc_type]
     fields_in = data.get("fields") if isinstance(data.get("fields"), dict) else {}
@@ -180,10 +203,12 @@ def postprocess(data: dict, doc_type: str, source_name: str, pages: int) -> dict
         "prompt_version": "deepseek-v1",
         "doc_type": doc_type,
         "source_file": Path(source_name).name,
-        "engine": f"deepseek({_cfg()['model']}) + local-rapidocr-ocr-v1",
+        "engine": f"deepseek({_cfg()['model']}) + " + (
+            "local-rapidocr-ocr-v1" if ocr_used else "local-pdf-text-v1"
+        ),
         "fields": fields,
         "parse_meta": {
-            "ocr_used": True,
+            "ocr_used": ocr_used,
             "pages": pages,
             "warnings": [str(w) for w in (data.get("parse_meta") or {}).get("warnings", [])]
             or ["DeepSeek 引擎：LLM 自报置信仅供参考；关键字段建议对照原文复核"],
@@ -222,7 +247,9 @@ def extract_deepseek(pdf_source, doc_type: str, source_name: str = "upload.pdf",
                      dpi: int = 200, mock_reply: str | None = None) -> dict:
     """Main entry for the web backend. pdf_source: bytes or path. Returns Contract-A dict."""
     cfg = _cfg()
-    text, pages = ocr_text(pdf_source, dpi=dpi)
+    if mock_reply is None and not cfg["api_key"]:
+        raise DeepSeekError("缺 DEEPSEEK_API_KEY：请在 .env 填写（现场临时填即可）。")
+    text, pages, ocr_used = ocr_text(pdf_source, dpi=dpi)
     if not text.strip() or text.count("(no text recognized)") >= pages:
         raise DeepSeekError("本地 OCR 未识别到任何文字，无法抽取。")
     prompt = build_prompt(text, doc_type)
@@ -230,12 +257,18 @@ def extract_deepseek(pdf_source, doc_type: str, source_name: str = "upload.pdf",
     if mock_reply is not None:
         content = mock_reply
     else:
-        if not cfg["api_key"]:
-            raise DeepSeekError("缺 DEEPSEEK_API_KEY：请在 .env 填写（现场临时填即可）。")
         content = call_deepseek(prompt, cfg["api_key"], cfg["base_url"], cfg["model"])
 
-    doc = postprocess(parse_json(content), doc_type, source_name, pages)
-    errs = light_check(doc)
+    def checked_document(reply: str) -> tuple[dict, list[str]]:
+        result = postprocess(parse_json(reply), doc_type, source_name, pages, ocr_used)
+        return result, light_check(result)
+
+    try:
+        doc, errs = checked_document(content)
+    except DeepSeekError as exc:
+        if mock_reply is not None:
+            raise
+        doc, errs = {}, [str(exc)]
     if errs and mock_reply is None:  # one repair round-trip against the real API
         retry_prompt = (
             prompt
@@ -243,7 +276,9 @@ def extract_deepseek(pdf_source, doc_type: str, source_name: str = "upload.pdf",
             + "\n- ".join(errs[:12])
         )
         content = call_deepseek(retry_prompt, cfg["api_key"], cfg["base_url"], cfg["model"])
-        doc = postprocess(parse_json(content), doc_type, source_name, pages)
+        doc, errs = checked_document(content)
+    if errs:
+        raise DeepSeekError("模型输出未通过结构检查：" + "; ".join(errs[:12]))
     return doc
 
 
